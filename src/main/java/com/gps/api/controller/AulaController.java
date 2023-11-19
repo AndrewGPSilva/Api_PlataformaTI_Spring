@@ -8,6 +8,9 @@ import com.gps.api.aula.DadosListagemAulas;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,8 +23,8 @@ public class AulaController {
     private AulaRepository repository;
 
     @GetMapping
-    public List<DadosListagemAulas> getAll(){
-        return repository.findAll().stream().map(DadosListagemAulas::new).toList();
+    public Page<DadosListagemAulas> getAll(@PageableDefault(size = 5, sort = {"titulo"}) Pageable paginacao){
+        return repository.findAll(paginacao).map(DadosListagemAulas::new);
     }
 
     @PostMapping
