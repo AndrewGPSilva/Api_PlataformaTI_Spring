@@ -1,9 +1,6 @@
 package com.gps.api.controller;
 
-import com.gps.api.aula.Aula;
-import com.gps.api.aula.AulaRepository;
-import com.gps.api.aula.DadosCadastroAula;
-import com.gps.api.aula.DadosListagemAulas;
+import com.gps.api.aula.*;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -31,5 +28,12 @@ public class AulaController {
     @Transactional
     public void create(@RequestBody @Valid DadosCadastroAula dados) {
         repository.save(new Aula(dados));
+    }
+
+    @PutMapping
+    @Transactional
+    public void update(@RequestBody @Valid DadosAtualizarAula dados){
+        var aula = repository.getReferenceById(dados.id());
+        aula.atualizarInformacoes(dados);
     }
 }

@@ -35,4 +35,26 @@ public class Aula {
         this.imagem = dados.imagem();
         this.categoria = dados.categoria();
     }
+
+    public void atualizarInformacoes(DadosAtualizarAula dados) {
+        if(dados.titulo() != null) {
+            this.titulo = dados.titulo();
+        }
+
+        if(dados.link() != null) {
+            this.link = dados.link();
+        }
+
+        if(dados.descricao() != null) {
+            this.descricao = dados.descricao();
+        }
+
+        if(dados.imagem() != null) {
+            this.imagem = dados.imagem();
+        }
+
+        if(dados.categoria() != null) {
+            this.categoria = dados.categoria();
+        }
+    }
 }
