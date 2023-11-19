@@ -3,6 +3,8 @@ package com.gps.api.controller;
 import com.gps.api.aula.Aula;
 import com.gps.api.aula.AulaRepository;
 import com.gps.api.aula.DadosCadastroAula;
+import com.gps.api.aula.DadosListagemAulas;
+
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +20,8 @@ public class AulaController {
     private AulaRepository repository;
 
     @GetMapping
-    public List<Aula> getAll(){
-        return repository.findAll();
+    public List<DadosListagemAulas> getAll(){
+        return repository.findAll().stream().map(DadosListagemAulas::new).toList();
     }
 
     @PostMapping
