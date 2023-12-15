@@ -11,32 +11,34 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-
 @RestController
 @RequestMapping("aulas")
 public class AulaController {
+
+    // Devolvendo o código HTTP 201
 
     @Autowired
     private AulaRepository repository;
 
     @GetMapping
-    public Page<DadosListagemAulas> getAll(@PageableDefault(size = 5, sort = {"titulo"}) Pageable paginacao){
-        return repository.findAll(paginacao).map(DadosListagemAulas::new);
+    public ResponseEntity<Page<DadosListagemAulas>> getAll(@PageableDefault(size = 5, sort = {"titulo"}) Pageable paginacao){
+        var page = repository.findAll(paginacao).map(DadosListagemAulas::new);
+        return ResponseEntity.ok(page);
     }
 
     @PostMapping
     @Transactional
-    public void create(@RequestBody @Valid DadosCadastroAula dados) {
+    public ResponseEntity create(@RequestBody @Valid DadosCadastroAula dados) {
         repository.save(new Aula(dados));
     }
 
     @PutMapping
     @Transactional
-    public void update(@RequestBody @Valid DadosAtualizarAula dados){
+    public ResponseEntity<DadosDetalhamentoAula> update(@RequestBody @Valid DadosAtualizarAula dados){
         var aula = repository.getReferenceById(dados.id());
         aula.atualizarInformacoes(dados);
+
+        return ResponseEntity.ok(new DadosDetalhamentoAula(aula));
     }
 
     @DeleteMapping("/{id}")
